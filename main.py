@@ -2,7 +2,6 @@
 import env
 import linecache
 from env import instances_choose
-from env import fc
 
 # var
 downloader_config = "./config/downloader.ini"
