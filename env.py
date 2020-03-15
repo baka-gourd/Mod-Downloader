@@ -1,17 +1,7 @@
 # import
 import os
 
-# class
-
-
-class FontColor(object):
-    GREEN = '\033[32m'
-    RED = '\033[31m'
-    YELLOW = '\33[33m'
-
-
 # var
-fc = FontColor()
 instances_list = os.listdir('./config/instances')
 
 # code
@@ -27,8 +17,8 @@ elif default == "n" or default == "N":
     print("[PATH]", file=write_config)
     print(instance_path, file=write_config)
     print(instance_version, file=write_config)
-    print(fc.GREEN+"写入成功！")
+    print("写入成功！")
     write_config.close()
     instances_choose = instance_name
 else:
-    print(fc.RED+"请重新检查输入!")
+    print("请重新检查输入!")
