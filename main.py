@@ -32,3 +32,13 @@ response_body = urlopen(request).read()
 search_cache = open('./cache/search_cache.json', 'w')
 print(response_body, file=search_cache)
 search_cache.close()
+
+with open('./cache/search_cache.json', encoding='utf-8') as s_c:
+    line = s_c.readline()
+    d = json.loads(line)
+    name = d['name']
+    company_url = d['company_url']
+    telephone = d['telphone']
+    crawl_time = d['crawl_time']
+    print(name, company_url, telephone, crawl_time)
+    s_c.close()
