@@ -13,13 +13,13 @@ downloader_config = "./config/downloader.ini"
 # code
 
 # 选择实例
-print("您选择的实例名称是：" + instances_choose)
+#print("\033[1;32m 您选择的实例名称是：\033[0m" + instances_choose)
 using_path = linecache.getline('./config/instances/' + instances_choose, 2)
 using_version = linecache.getline('./config/instances/' + instances_choose, 3)
 using_path = using_path[:-1]
 using_version = using_version[:-1]
-print(using_path)
-print(using_version)
+# print(using_path)
+# print(using_version)
 
 # 搜索
 search_key = str("craft")  # input("请输入搜索关键词：")
@@ -32,4 +32,17 @@ response_body_bytes = urlopen(request).read()
 response_body_str = str(response_body_bytes, 'utf-8')
 search_cache = open('./cache/search_cache.json', 'w')
 print(response_body_str, file=search_cache)
+search_cache_json = json.loads(response_body_str)
 search_cache.close()
+# print(search_cache_json)
+for i in search_cache_json:
+    project_name = i['name']
+    project_authors = i['authors']
+    project_download = i['latestFiles']
+    for name in project_authors:
+        project_authors_name = name['name']
+        print("*", "\t", project_name, "\t", project_authors_name)
+        break
+    #print(project_name,"\t", project_authors_name)
+
+print("fuck")

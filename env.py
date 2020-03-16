@@ -17,8 +17,8 @@ elif default == "n" or default == "N":
     print("[PATH]", file=write_config)
     print(instance_path, file=write_config)
     print(instance_version, file=write_config)
-    print("写入成功！")
+    print("\033[1;33m 写入成功！\033[0m")
     write_config.close()
     instances_choose = instance_name
 else:
-    print("请重新检查输入!")
+    print("\033[1;31m 请重新检查输入!\033[0m")
