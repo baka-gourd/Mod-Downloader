@@ -28,14 +28,8 @@ page_count = str(1)
 request = Request('https://addons-ecs.forgesvc.net/api/v2/addon/search?categoryId=0&gameId=432&gameVersion=' +
                   using_version+'&index='+page_count+'&pageSize=10&searchFilter='+search_key)
 
-response_body = urlopen(request).read()
+response_body_bytes = urlopen(request).read()
+response_body_str = str(response_body_bytes, 'utf-8')
 search_cache = open('./cache/search_cache.json', 'w')
-print(response_body, file=search_cache)
+print(response_body_str, file=search_cache)
 search_cache.close()
-
-with open('./cache/search_cache.json', encoding='utf-8') as s_c:
-    line = s_c.readline()
-    d = json.loads(line)
-    name = d['name']
-    authors = d['company_url']
-    s_c.close()
