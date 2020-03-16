@@ -34,15 +34,21 @@ search_cache = open('./cache/search_cache.json', 'w')
 print(response_body_str, file=search_cache)
 search_cache_json = json.loads(response_body_str)
 search_cache.close()
-# print(search_cache_json)
+# 解析Json
 for i in search_cache_json:
-    project_name = i['name']
+    project_name = i['name']  # 获取Mod名
     project_authors = i['authors']
-    project_download = i['latestFiles']
-    for name in project_authors:
+    project_download = i['gameVersionLatestFiles']
+    for version in project_download:
+        if version['gameVersion'] == using_version:  # 获取ModID
+            project_download_id = version['projectFileId']
+            break
+        else:
+            pass
+    for name in project_authors:  # 获取Mod作者
         project_authors_name = name['name']
-        print("*", "\t", project_name, "\t", project_authors_name)
         break
-    #print(project_name,"\t", project_authors_name)
+    print("ID:", project_download_id, "\t", project_name, "\t",
+          project_authors_name, "\t")
 
 print("fuck")
