@@ -26,7 +26,7 @@ jobs:
         pip install pyinstaller
     - name: Make exe
       run: |
-        pyinstaller -c -F /main.py
+        pyinstaller -c -F ./main.py
     - name: Release apk
       uses: ncipollo/release-action@v1.5.0
       with:
