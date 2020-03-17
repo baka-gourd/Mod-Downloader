@@ -3,8 +3,18 @@ import os
 
 # var
 instances_list = os.listdir('./config/instances')
+cache_dir = './cache'
+config_dir = './config'
+instances_dir = './config/instances'
 
-# code
+# 检查文件夹
+if not os.path.exists(cache_dir):
+    os.mkdir(cache_dir)
+if not os.path.exists(config_dir):
+    os.mkdir(config_dir)
+if not os.path.exists(instances_dir):
+    os.mkdir(instances_dir)
+
 default = input("是否使用已有实例[Y/N]：")
 if default == "y" or default == "Y":
     print(instances_list)

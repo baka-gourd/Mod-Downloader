@@ -6,6 +6,8 @@ import json
 from env import instances_choose
 from urllib.request import Request
 from urllib.request import urlopen
+from downloader import Downloader
+from downloader import run
 
 # var
 downloader_config = "./config/downloader.ini"
