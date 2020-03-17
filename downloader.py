@@ -33,7 +33,7 @@ class Downloader():
             lock.release()
             # 释放锁
 
-    def run(self):
+    def drun(self):
         # 创建一个和要下载文件一样大小的文件
         fp = open(self.name, "wb")
         fp.truncate(self.size)
