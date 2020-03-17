@@ -5,11 +5,8 @@ name: Python application
 
 on:
   push:
-    branches:
-    - master
-  pull_request:
-    branches:
-    - master
+    tags:
+      - v*
 
 jobs:
   build:
@@ -30,7 +27,7 @@ jobs:
       run: |
         pyinstaller -c -F ./main.py
     - name: Release apk
-      uses: ncipollo/release-action@v1.5.0
+      uses: actions/checkout@v2
       with:
         artifacts: "build/app/outputs/apk/release/*.apk"
         token: ${{ secrets.GITHUB_RElEASE_TOKEN }}
