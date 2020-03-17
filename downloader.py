@@ -16,7 +16,7 @@ class Downloader():
         # 若资源显示302,则迭代找寻源文件
         while r.status_code == 302:
             self.url = r.headers['Location']
-            print("该url已重定向至{}".format(self.url))
+            # print("该url已重定向至{}".format(self.url))
             r = head(self.url)
         self.size = int(r.headers['Content-Length'])
         print('正在下载的Mod：{} '.format(self.name))
