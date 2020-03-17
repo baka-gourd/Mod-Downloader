@@ -95,13 +95,6 @@ for i in mod_id_download_list:
     print(response_dependencies_body_str, file=dependencies_cache)
     dependencies_json = json.loads(response_dependencies_body_str)
     dependencies_cache.close()
-    for latestFiles in dependencies_json:
-        latestFiles_get = latestFiles['latestFiles']
-        for de in latestFiles_get:
-            dependencies = de['dependencies']
-            break
-            for aid in dependencies:
-                addonid = aid['addonId']
 
 
 download_num = len(mod_id_download_list)
