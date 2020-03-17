@@ -18,6 +18,7 @@ if not os.path.exists('./downloader.ini'):
     print("export = flase", file=init_downloader)
     init_downloader.close()
 
+print("正在加载...下载和搜索速度视网络环境而定。")
 default = input("是否使用已有实例[Y/N]：")
 if default == "y" or default == "Y":  # 选择配置
     instances_list = cfg.sections()
