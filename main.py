@@ -28,7 +28,7 @@ while search_key != 'exit':
     search_key = search_key.replace('\u0020', '+')
     page_count = str(1)
     if search_key == "exit":
-        print("结束搜索，开始下载...")
+        print("结束搜索，开始解析依赖...")
     else:
         project_num = 0
         project_download_id_dict = {}
@@ -84,6 +84,23 @@ else:
 # print(mod_id_download_list)
 # print(mod_file_id_download_list)
 # print(mod_name_download_list)
+
+for i in mod_id_download_list:
+    i = str(i)
+    request = Request('https://addons-ecs.forgesvc.net/api/v2/addon/' + i)
+    response_dependencies_body = urlopen(request).read()
+    response_dependencies_body_str = str(response_body_bytes, 'utf-8')
+    dependencies_cache = open('./cache/dependencies_cache.json', 'w')
+    print(response_dependencies_body_str, file=dependencies_cache)
+    dependencies_json = json.loads(response_dependencies_body_str)
+    dependencies_cache.close()
+    for j in dependencies_json:
+        lf = j['latestFiles']
+        for k in lf:
+            de = k['dependencies']
+            for l in de:
+                aid = l['addonId']
+
 
 download_num = len(mod_id_download_list)
 download_num_use = download_num - 1
