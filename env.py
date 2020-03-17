@@ -7,9 +7,16 @@ instances_config = 'instances.ini'
 cache_dir = './cache'
 cfg.read(instances_config)
 
-# 检查文件夹
+
+# 检查文件
 if not os.path.exists(cache_dir):
     os.mkdir(cache_dir)
+if not os.path.exists('./downloader.ini'):
+    init_downloader = open("./downloader.ini", "a+")
+    print("[downloader]", file=init_downloader)
+    print("thread = 32", file=init_downloader)
+    print("export = flase", file=init_downloader)
+    init_downloader.close()
 
 default = input("是否使用已有实例[Y/N]：")
 if default == "y" or default == "Y":  # 选择配置

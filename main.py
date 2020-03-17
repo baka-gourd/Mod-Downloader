@@ -20,10 +20,12 @@ mod_name_download_list = []
 
 cfg.read(downloader_config)
 cfg_downloader_thread = cfg.getint("downloader", "thread")
+cfg_downloader_export = cfg.get("downloader", "export")
 
 # 搜索
 while search_key != 'exit':
     search_key = str(input("请输入搜索关键词（输入exit结束搜索）："))
+    search_key = search_key.replace('\u0020', '+')
     page_count = str(1)
     if search_key == "exit":
         print("结束搜索，开始下载...")
@@ -61,12 +63,17 @@ while search_key != 'exit':
             project_id_dict[project_num] = project_id
             project_name_dict[project_num] = project_name
             project_num = project_num + 1
-        select_mod_num = int((input("请输入mod编号：")))
-        mod_id_download_list.append(
-            project_id_dict[select_mod_num])
-        mod_file_id_download_list.append(
-            project_download_id_dict[select_mod_num])
-        mod_name_download_list.append(project_name_dict[select_mod_num])
+        select_mod_num = (input("请输入mod编号（若无mod，使用back重新搜索）："))
+        if select_mod_num != "back":
+            select_mod_num = int(select_mod_num)
+            mod_id_download_list.append(
+                project_id_dict[select_mod_num])
+            mod_file_id_download_list.append(
+                project_download_id_dict[select_mod_num])
+            mod_name_download_list.append(project_name_dict[select_mod_num])
+        else:
+            pass
+
 else:
     pass
 
@@ -89,7 +96,12 @@ while download_num_use >= 0:
         'https://addons-ecs.forgesvc.net/api/v2/addon/' + download_cache_id + '/file/' + download_cache_file_id + '/download-url')
     response_download_body_bytes = urlopen(request).read()
     response_download_body_str = str(response_download_body_bytes, 'utf-8')
-    #print(response_download_body_str)
+    if cfg_downloader_export == 'true':
+        export_cache = open('./url.txt', 'a+')
+        print(response_download_body_str, file=export_cache)
+        export_cache.close()
+    else:
+        pass
     mod_download = Downloader(
         response_download_body_str, cfg_downloader_thread, using_path + "\\mods\\" + download_cache_file_name + ".jar")
     mod_download.drun()

@@ -6,6 +6,7 @@ __pycache__/
 cache/
 downloader.ini
 instances.ini
+url.txt
 # C extensions
 *.so
 
