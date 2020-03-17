@@ -87,19 +87,21 @@ else:
 
 for i in mod_id_download_list:
     i = str(i)
-    request = Request('https://addons-ecs.forgesvc.net/api/v2/addon/' + i)
-    response_dependencies_body = urlopen(request).read()
-    response_dependencies_body_str = str(response_body_bytes, 'utf-8')
+    request_dependencies = Request(
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + i)
+    response_dependencies_body = urlopen(request_dependencies).read()
+    response_dependencies_body_str = str(response_dependencies_body, 'utf-8')
     dependencies_cache = open('./cache/dependencies_cache.json', 'w')
     print(response_dependencies_body_str, file=dependencies_cache)
     dependencies_json = json.loads(response_dependencies_body_str)
     dependencies_cache.close()
-    for j in dependencies_json:
-        lf = j['latestFiles']
-        for k in lf:
-            de = k['dependencies']
-            for l in de:
-                aid = l['addonId']
+    for latestFiles in dependencies_json:
+        latestFiles_get = latestFiles['latestFiles']
+        for de in latestFiles_get:
+            dependencies = de['dependencies']
+            break
+            for aid in dependencies:
+                addonid = aid['addonId']
 
 
 download_num = len(mod_id_download_list)
