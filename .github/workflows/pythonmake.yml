@@ -26,7 +26,7 @@ jobs:
     - name: Make exe
       run: |
         pyinstaller -c -F ./main.py
-    - name: Release apk
+    - name: Release exe
       uses: actions/checkout@v2
       with:
         artifacts: "./dist/*.exe"
