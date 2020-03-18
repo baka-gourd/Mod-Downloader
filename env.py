@@ -20,7 +20,6 @@ if not os.path.exists('./downloader.ini'):
     print("export = flase", file=init_downloader)
     init_downloader.close()
 
-print("正在加载...下载和搜索速度视网络环境而定。")
 while default != "y" or default != "Y" or default != "n" or default != "N":
     if instances_choose not in instances_list:
         default = input("是否使用已有实例[Y/N]：")
@@ -30,7 +29,7 @@ while default != "y" or default != "Y" or default != "n" or default != "N":
                 print(i)
             instances_choose = input("请选择实例：")
             while instances_choose not in instances_list:
-                print("\033[1;31m 请重新检查输入!\033[0m")
+                print("请重新检查输入!")
                 instances_choose = input("请选择实例：")
         elif default == "n" or default == "N":  # 写入配置
             instance_name = input("实例名称（不可相同！）：")
@@ -43,7 +42,7 @@ while default != "y" or default != "Y" or default != "n" or default != "N":
                 cfg.write(icfg)
             instances_choose = instance_name
         else:
-            print("\033[1;31m 请重新检查输入!\033[0m")
+            print("请重新检查输入!")
     else:
         break
 
