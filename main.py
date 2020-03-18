@@ -22,6 +22,7 @@ mod_name_download_list = []
 dependencies_id_list = []
 dependencies_id_list_2 = []
 dependencies_id_list_3 = []
+dependencies_id_list_4 = []
 project_authors_name = ""
 project_download_id = ""
 
@@ -187,6 +188,34 @@ for mod_id in dependencies_id_list_2:
         else:
             pass
 
+for mod_id in dependencies_id_list_3:
+    mod_id_str = str(mod_id)
+    request_dependencies_4 = Request(
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + mod_id_str + "/files")
+    response_dependencies_body_4 = urlopen(request_dependencies_4).read()
+    response_dependencies_body_str_4 = str(
+        response_dependencies_body_4, 'utf-8')
+    dependencies_cache_4 = open('./cache/dependencies_cache_4.json', 'w')
+    print(response_dependencies_body_str_4, file=dependencies_cache_4)
+    dependencies_json_4 = json.loads(response_dependencies_body_str_4)
+    dependencies_cache_4.close()
+    # 解析依赖Json
+    for i in dependencies_json_4:
+        dependencies_addonid = ""
+        dependencies_gameVersion = i['gameVersion']
+        dependencies = i['dependencies']
+        if dependencies_gameVersion == [using_version]:
+            for j in dependencies:
+                addid_1 = str(j)
+                addid = addid_1[12:-12]
+                if addid not in dependencies_id_list_3:
+                    dependencies_id_list_4.append(addid)
+                else:
+                    pass
+
+        else:
+            pass
+
 for i in dependencies_id_list:
     if i not in dependencies_id_list_2:
         dependencies_id_list_2.append(i)
@@ -197,8 +226,13 @@ for j in dependencies_id_list_2:
         dependencies_id_list_3.append(j)
     else:
         pass
+for k in dependencies_id_list_3:
+    if k not in dependencies_id_list_4:
+        dependencies_id_list_4.append(k)
+    else:
+        pass
 
-print(dependencies_id_list_3)
+print(dependencies_id_list_4)
 
 
 download_num = len(mod_id_download_list)
