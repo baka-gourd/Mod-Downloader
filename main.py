@@ -23,6 +23,8 @@ dependencies_id_list = []
 dependencies_id_list_2 = []
 dependencies_id_list_3 = []
 dependencies_id_list_4 = []
+fuck_id_list = []
+fuck_name_list = []
 project_authors_name = ""
 project_download_id = ""
 
@@ -38,6 +40,7 @@ while search_key != 'exit':
     if search_key == "exit":
         print("结束搜索，开始解析依赖...")
     else:
+        select_mod_num_v = "1"
         project_num = 0
         project_download_id_dict = {}
         project_id_dict = {}
@@ -71,7 +74,6 @@ while search_key != 'exit':
             project_id_dict[project_num] = project_id
             project_name_dict[project_num] = project_name
             project_num = project_num + 1
-            select_mod_num = ""
         while str(select_mod_num) != "back" and select_mod_num_v != "0":
             select_mod_num = (input("请输入mod编号（若无mod，使用back重新搜索）："))
             try:
@@ -82,7 +84,7 @@ while search_key != 'exit':
                 select_mod_num_v = "0"
         else:
             if select_mod_num == "back":
-                pass
+                select_mod_num = ""
             else:
                 for num_ in select_mod_num:
                     select_mod_num_1 = int(num_)
@@ -232,7 +234,60 @@ for k in dependencies_id_list_3:
     else:
         pass
 
-print(dependencies_id_list_4)
+# print(dependencies_id_list_4)
+
+
+for dependencies_fuck_id in dependencies_id_list_4:
+    fuck_str = str(dependencies_fuck_id)
+    request_fuck_cf = Request(
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + fuck_str + "/files")
+    response_fuck_cf_body = urlopen(request_fuck_cf).read()
+    response_fuck_cf_body_str = str(
+        response_fuck_cf_body, 'utf-8')
+    dependencies_cache_fuck = open('./cache/dependencies_cache_fuck.json', 'w')
+    print(response_fuck_cf_body_str, file=dependencies_cache_fuck)
+    dependencies_cache_fuck_json = json.loads(
+        response_fuck_cf_body_str)
+    dependencies_cache_fuck.close()
+    # 解析依赖Json
+    for i in dependencies_cache_fuck_json:
+        fuck_gameVersion = i['gameVersion']
+        if fuck_gameVersion == [using_version]:
+            fuck_id = i['id']
+            fuck_name = i['fileName']
+            fuck_id_list.append(int(fuck_id))
+            fuck_name_list.append(fuck_name)
+            break
+        else:
+            pass
+
+# print(dependencies_id_list_4)
+# print(fuck_id_list)
+# print(fuck_name_list)
+
+fuck_num = len(fuck_id_list)
+fuck_num_use = fuck_num - 1
+
+while fuck_num_use >= 0:
+    fuck_mod_id = str(dependencies_id_list_4[fuck_num_use])
+    fuck_id = str(fuck_id_list[fuck_num_use])
+    fuck_name = str(fuck_name_list[fuck_num_use])
+    request_fuck = Request(
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + fuck_mod_id + '/file/' + fuck_id + '/download-url')
+    response_fuck_body_bytes = urlopen(request_fuck).read()
+    response_fuck_body_str = str(response_fuck_body_bytes, 'utf-8')
+    if cfg_downloader_export == 'true':
+        export_cache = open('./url.txt', 'a+')
+        print(response_fuck_body_str, file=export_cache)
+        export_cache.close()
+    else:
+        pass
+    fuck_download = Downloader(
+        response_fuck_body_str, cfg_downloader_thread, using_path + "\\mods\\" + fuck_name + ".jar")
+    fuck_download.drun()
+    fuck_num_use = fuck_num_use - 1
+else:
+    pass
 
 
 download_num = len(mod_id_download_list)
@@ -242,9 +297,9 @@ while download_num_use >= 0:
     download_cache_id = str(mod_id_download_list[download_num_use])
     download_cache_file_id = str(mod_file_id_download_list[download_num_use])
     download_cache_file_name = str(mod_name_download_list[download_num_use])
-    request = Request(
+    request_d = Request(
         'https://addons-ecs.forgesvc.net/api/v2/addon/' + download_cache_id + '/file/' + download_cache_file_id + '/download-url')
-    response_download_body_bytes = urlopen(request).read()
+    response_download_body_bytes = urlopen(request_d).read()
     response_download_body_str = str(response_download_body_bytes, 'utf-8')
     if cfg_downloader_export == 'true':
         export_cache = open('./url.txt', 'a+')
