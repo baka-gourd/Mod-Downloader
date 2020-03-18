@@ -33,7 +33,7 @@ while default != "y" or default != "Y" or default != "n" or default != "N":
                 instances_choose = input("请选择实例：")
         elif default == "n" or default == "N":  # 写入配置
             instance_name = input("实例名称（不可相同！）：")
-            instance_path = input("实例（.minecraft）绝对路径：")
+            instance_path = input("实例（/mods）绝对路径：")
             instance_version = input("实例版本：")
             cfg.add_section(instance_name)
             cfg.set(instance_name, "path", instance_path)
