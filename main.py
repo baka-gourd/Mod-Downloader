@@ -14,6 +14,8 @@ from downloader import Downloader
 cfg = configparser.ConfigParser()
 downloader_config = './downloader.ini'
 search_key = ""
+select_mod_num = ""
+select_mod_num_v = "1"
 mod_id_download_list = []
 mod_file_id_download_list = []
 mod_name_download_list = []
@@ -63,16 +65,26 @@ while search_key != 'exit':
             project_id_dict[project_num] = project_id
             project_name_dict[project_num] = project_name
             project_num = project_num + 1
-        select_mod_num = (input("请输入mod编号（若无mod，使用back重新搜索）："))
-        if select_mod_num != "back":
-            select_mod_num = int(select_mod_num)
-            mod_id_download_list.append(
-                project_id_dict[select_mod_num])
-            mod_file_id_download_list.append(
-                project_download_id_dict[select_mod_num])
-            mod_name_download_list.append(project_name_dict[select_mod_num])
+        while str(select_mod_num) != "back" and select_mod_num_v != "0":
+            select_mod_num = (input("请输入mod编号（若无mod，使用back重新搜索）："))
+            try:
+                select_mod_num_t = int(select_mod_num)
+            except ValueError:
+                select_mod_num_v = "1"
+            else:
+                select_mod_num_v = "0"
         else:
-            pass
+            if select_mod_num == "back":
+                pass
+            else:
+                for num_ in select_mod_num:
+                    select_mod_num_1 = int(num_)
+                    mod_id_download_list.append(
+                        project_id_dict[select_mod_num_1])
+                    mod_file_id_download_list.append(
+                        project_download_id_dict[select_mod_num_1])
+                    mod_name_download_list.append(
+                        project_name_dict[select_mod_num_1])
 
 else:
     pass
@@ -81,9 +93,9 @@ else:
 # print(project_download_id_dict)
 # print(project_id_dict)
 # print(project_name_dict)
-# print(mod_id_download_list)
-# print(mod_file_id_download_list)
-# print(mod_name_download_list)
+print(mod_id_download_list)
+print(mod_file_id_download_list)
+print(mod_name_download_list)
 
 for i in mod_id_download_list:
     i = str(i)
