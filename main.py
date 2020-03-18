@@ -19,6 +19,11 @@ select_mod_num_v = "1"
 mod_id_download_list = []
 mod_file_id_download_list = []
 mod_name_download_list = []
+dependencies_id_list = []
+dependencies_id_list_2 = []
+dependencies_id_list_3 = []
+project_authors_name = ""
+project_download_id = ""
 
 cfg.read(downloader_config)
 cfg_downloader_thread = cfg.getint("downloader", "thread")
@@ -65,6 +70,7 @@ while search_key != 'exit':
             project_id_dict[project_num] = project_id
             project_name_dict[project_num] = project_name
             project_num = project_num + 1
+            select_mod_num = ""
         while str(select_mod_num) != "back" and select_mod_num_v != "0":
             select_mod_num = (input("请输入mod编号（若无mod，使用back重新搜索）："))
             try:
@@ -93,20 +99,106 @@ else:
 # print(project_download_id_dict)
 # print(project_id_dict)
 # print(project_name_dict)
-print(mod_id_download_list)
-print(mod_file_id_download_list)
-print(mod_name_download_list)
+# print(mod_id_download_list)
+# print(mod_file_id_download_list)
+# print(mod_name_download_list)
 
-for i in mod_id_download_list:
-    i = str(i)
+
+for mod_id in mod_id_download_list:
+    mod_id_str = str(mod_id)
     request_dependencies = Request(
-        'https://addons-ecs.forgesvc.net/api/v2/addon/' + i)
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + mod_id_str + "/files")
     response_dependencies_body = urlopen(request_dependencies).read()
     response_dependencies_body_str = str(response_dependencies_body, 'utf-8')
     dependencies_cache = open('./cache/dependencies_cache.json', 'w')
     print(response_dependencies_body_str, file=dependencies_cache)
     dependencies_json = json.loads(response_dependencies_body_str)
     dependencies_cache.close()
+    # 解析依赖Json
+    for i in dependencies_json:
+        dependencies_addonid = ""
+        dependencies_gameVersion = i['gameVersion']
+        dependencies = i['dependencies']
+        if dependencies_gameVersion == [using_version]:
+            for j in dependencies:
+                addid_1 = str(j)
+                addid = addid_1[12:-12]
+                if addid not in dependencies_id_list:
+                    dependencies_id_list.append(addid)
+                else:
+                    pass
+
+        else:
+            pass
+
+for mod_id in dependencies_id_list:
+    mod_id_str = str(mod_id)
+    request_dependencies_2 = Request(
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + mod_id_str + "/files")
+    response_dependencies_body_2 = urlopen(request_dependencies_2).read()
+    response_dependencies_body_str_2 = str(
+        response_dependencies_body_2, 'utf-8')
+    dependencies_cache_2 = open('./cache/dependencies_cache_2.json', 'w')
+    print(response_dependencies_body_str_2, file=dependencies_cache_2)
+    dependencies_json_2 = json.loads(response_dependencies_body_str_2)
+    dependencies_cache_2.close()
+    # 解析依赖Json
+    for i in dependencies_json_2:
+        dependencies_addonid = ""
+        dependencies_gameVersion = i['gameVersion']
+        dependencies = i['dependencies']
+        if dependencies_gameVersion == [using_version]:
+            for j in dependencies:
+                addid_1 = str(j)
+                addid = addid_1[12:-12]
+                if addid not in dependencies_id_list:
+                    dependencies_id_list_2.append(addid)
+                else:
+                    pass
+
+        else:
+            pass
+
+for mod_id in dependencies_id_list_2:
+    mod_id_str = str(mod_id)
+    request_dependencies_3 = Request(
+        'https://addons-ecs.forgesvc.net/api/v2/addon/' + mod_id_str + "/files")
+    response_dependencies_body_3 = urlopen(request_dependencies_3).read()
+    response_dependencies_body_str_3 = str(
+        response_dependencies_body_3, 'utf-8')
+    dependencies_cache_3 = open('./cache/dependencies_cache_3.json', 'w')
+    print(response_dependencies_body_str_3, file=dependencies_cache_3)
+    dependencies_json_3 = json.loads(response_dependencies_body_str_3)
+    dependencies_cache_3.close()
+    # 解析依赖Json
+    for i in dependencies_json_3:
+        dependencies_addonid = ""
+        dependencies_gameVersion = i['gameVersion']
+        dependencies = i['dependencies']
+        if dependencies_gameVersion == [using_version]:
+            for j in dependencies:
+                addid_1 = str(j)
+                addid = addid_1[12:-12]
+                if addid not in dependencies_id_list_2:
+                    dependencies_id_list_3.append(addid)
+                else:
+                    pass
+
+        else:
+            pass
+
+for i in dependencies_id_list:
+    if i not in dependencies_id_list_2:
+        dependencies_id_list_2.append(i)
+    else:
+        pass
+for j in dependencies_id_list_2:
+    if j not in dependencies_id_list_3:
+        dependencies_id_list_3.append(j)
+    else:
+        pass
+
+print(dependencies_id_list_3)
 
 
 download_num = len(mod_id_download_list)
