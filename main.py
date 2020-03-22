@@ -283,7 +283,7 @@ while fuck_num_use >= 0:
     else:
         pass
     fuck_download = Downloader(
-        response_fuck_body_str, cfg_downloader_thread, using_path + fuck_name + ".jar")
+        response_fuck_body_str, cfg_downloader_thread, using_path + "\\" + fuck_name + ".jar")
     fuck_download.drun()
     fuck_num_use = fuck_num_use - 1
 else:
@@ -308,7 +308,7 @@ while download_num_use >= 0:
     else:
         pass
     mod_download = Downloader(
-        response_download_body_str, cfg_downloader_thread, using_path + download_cache_file_name + ".jar")
+        response_download_body_str, cfg_downloader_thread, using_path + "\\" + download_cache_file_name + ".jar")
     mod_download.drun()
     download_num_use = download_num_use - 1
 else:
